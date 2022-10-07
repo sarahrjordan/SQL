@@ -1,0 +1,235 @@
+/*
+Winston's Donut logs
+This table of logs shows how many donuts Winston eats at each year of his life,
+plus any particular reason to explain his eating habits.
+Collected by: https://www.khanacademy.org/profile/mhogwarts/
+*/
+
+CREATE TABLE winstons_donut_logs (
+    id TEXT PRIMARY KEY,
+    status TEXT,
+    years_old INTEGER,
+    donuts_eaten INTEGER,
+    reason TEXT
+    );
+INSERT INTO winstons_donut_logs VALUES (0, "new born winston lvl 0", 0, 0, "");
+INSERT INTO winstons_donut_logs VALUES (1, "baby winston lvl1", 1, 10, "(Gummed)");
+INSERT INTO winstons_donut_logs VALUES (2, "baby winston lvl2", 2, 40, "(Gummed)");
+INSERT INTO winstons_donut_logs VALUES (3, "baby winston lvl3", 3, 50, "(Gummed)");
+INSERT INTO winstons_donut_logs VALUES (4, "toddler winston lvl1", 4, 300, "");
+INSERT INTO winstons_donut_logs VALUES (5, "toddler winston lvl2", 5, 400, "");
+INSERT INTO winstons_donut_logs VALUES (6, "kid winston lvl1", 6, 1200, "");
+INSERT INTO winstons_donut_logs VALUES (7, "kid winston lvl2", 7, 1000, "");
+INSERT INTO winstons_donut_logs VALUES (8, "kid winston lvl3", 8, 1000, "");
+INSERT INTO winstons_donut_logs VALUES (9, "kid winston lvl4", 9, 1000, "");
+INSERT INTO winstons_donut_logs VALUES (10, "winstween lvl1", 10, 1500, "");/** tween means someone between 10 and 12 so I did winstween- tween not teen**/
+INSERT INTO winstons_donut_logs VALUES (11, "winstween lvl2", 11, 500, "Braces");
+INSERT INTO winstons_donut_logs VALUES (12, "winstween lvl3", 12, 300, "Braces");
+INSERT INTO winstons_donut_logs VALUES (13, "winsteen lvl1", 13, 400, "Braces");
+INSERT INTO winstons_donut_logs VALUES (14, "winsteen lvl2", 14, 1300, "No Braces");
+INSERT INTO winstons_donut_logs VALUES (15, "winsteen lvl3", 15, 2000, "");
+INSERT INTO winstons_donut_logs VALUES (16, "winsteen lvl4", 16, 2000, "");
+INSERT INTO winstons_donut_logs VALUES (17, "winsteen lvl5", 17, 2000, "");
+INSERT INTO winstons_donut_logs VALUES (18, "winsteen lvl6", 18, 2000, "");
+INSERT INTO winstons_donut_logs VALUES (19, "winsteen lvl7", 19, 2000, "");
+INSERT INTO winstons_donut_logs VALUES (20, "young adult winston lvl1", 20, 2000, "");
+INSERT INTO winstons_donut_logs VALUES (21, "young adult winston lvl2", 21, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (22, "young adult winston lvl3", 22, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (23, "young adult winston lvl4", 23, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (24, "young adult winston lvl5", 24, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (25, "young adult winston lvl6", 25, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (26, "young adult winston lvl7", 26, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (27, "young adult winston lvl8", 27, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (28, "young adult winston lvl9", 28, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (29, "young adult winston lvl10", 29, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (30, "mature adult winston lvl1", 30, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (31, "mature adult winston lvl2", 31, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (32, "mature adult winston lvl3", 32, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (33, "mature adult winston lvl4", 33, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (34, "mature adult winston lvl5", 34, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (35, "mature adult winston lvl6", 35, 1500, "Healthier Eating");
+INSERT INTO winstons_donut_logs VALUES (36, "mature adult winston lvl7", 36, 1500, "Healthier Eating");
+INSERT INTO winstons_donut_logs VALUES (37, "mature adult winston lvl8", 37, 1500, "Healthier Eating");
+INSERT INTO winstons_donut_logs VALUES (38, "mature adult winston lvl9", 38, 1500, "Healthier Eating");
+INSERT INTO winstons_donut_logs VALUES (39, "mature adult winston lvl10", 39, 1500, "Healthier Eating");
+INSERT INTO winstons_donut_logs VALUES (40, "middle-aged adult winston lvl1", 40, 2500, "Non-healthy eating");
+INSERT INTO winstons_donut_logs VALUES (41, "middle-aged adult winston lvl2", 41, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (42, "middle-aged adult winston lvl3", 42, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (43, "middle-aged adult winston lvl4", 43, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (44, "middle-aged adult winston lvl5", 44, 300, "Diet");
+INSERT INTO winstons_donut_logs VALUES (45, "middle-aged adult winston lvl6", 45, 200, "Diet");
+INSERT INTO winstons_donut_logs VALUES (46, "middle-aged adult winston lvl7", 46, 150, "Diet");
+INSERT INTO winstons_donut_logs VALUES (47, "middle-aged adult winston lvl8", 47, 150, "Diet");
+INSERT INTO winstons_donut_logs VALUES (48, "middle-aged adult winston lvl9", 48, 150, "Diet");
+INSERT INTO winstons_donut_logs VALUES (49, "middle-aged adult winston lvl10", 49, 150, "Diet");
+INSERT INTO winstons_donut_logs VALUES (50, "old-ish adult winston lvl1", 50, 2500, "No diet");
+INSERT INTO winstons_donut_logs VALUES (51, "old-ish adult winston lvl2", 51, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (52, "old-ish adult winston lvl3", 52, 2500, "");
+INSERT INTO winstons_donut_logs VALUES (53, "old-ish adult winston lvl4", 53, 1436, "Current age");
+
+/*
+Winston's Weight logs
+This table of logs shows how many donuts Winston eats at each year of his life,
+plus his weight and BMI.
+I built this table to query with the above table so I can understand relationships 
+between age, reasons for eating habits, and weight/BMI over the years (which all exist in different tables).
+*/
+
+CREATE TABLE winstons_weight_logs (
+    id TEXT PRIMARY KEY,
+    years_old INTEGER,
+    donuts_eaten INTEGER,
+    weight INTEGER, 
+    bmi INTEGER
+    );
+INSERT INTO winstons_weight_logs VALUES (0, 0, 0, 1, 15);
+INSERT INTO winstons_weight_logs VALUES (1, 1, 10, 10, 15);
+INSERT INTO winstons_weight_logs VALUES (2, 2, 40, 20, 25);
+INSERT INTO winstons_weight_logs VALUES (3, 3, 50, 30, 25);
+INSERT INTO winstons_weight_logs VALUES (4, 4, 300, 40, 23);
+INSERT INTO winstons_weight_logs VALUES (5, 5, 400, 50, 23);
+INSERT INTO winstons_weight_logs VALUES (6, 6, 1200, 60, 25);
+INSERT INTO winstons_weight_logs VALUES (7, 7, 1000, 80, 26);
+INSERT INTO winstons_weight_logs VALUES (8, 8, 1000, 90, 28);
+INSERT INTO winstons_weight_logs VALUES (9, 9, 1000, 95, 28);
+INSERT INTO winstons_weight_logs VALUES (10, 10, 1500, 100, 29);
+INSERT INTO winstons_weight_logs VALUES (11, 11, 500, 110, 28);
+INSERT INTO winstons_weight_logs VALUES (12, 12, 300, 110, 26);
+INSERT INTO winstons_weight_logs VALUES (13, 13, 400, 110, 25);
+INSERT INTO winstons_weight_logs VALUES (14, 14, 1300, 120, 26);
+INSERT INTO winstons_weight_logs VALUES (15, 15, 2000, 140, 28);
+INSERT INTO winstons_weight_logs VALUES (16, 16, 2000, 170, 29);
+INSERT INTO winstons_weight_logs VALUES (17, 17, 2000, 180, 31);
+INSERT INTO winstons_weight_logs VALUES (18, 18, 2000, 175, 30);
+INSERT INTO winstons_weight_logs VALUES (19, 19, 2000, 175, 30);
+INSERT INTO winstons_weight_logs VALUES (20, 20, 2000, 180, 29);
+INSERT INTO winstons_weight_logs VALUES (21, 21, 2500, 185, 26);
+INSERT INTO winstons_weight_logs VALUES (22, 22, 2500, 190, 26);
+INSERT INTO winstons_weight_logs VALUES (23, 23, 2500, 190, 26);
+INSERT INTO winstons_weight_logs VALUES (24, 24, 2500, 192, 26);
+INSERT INTO winstons_weight_logs VALUES (25, 25, 2500, 190, 24);
+INSERT INTO winstons_weight_logs VALUES (26, 26, 2500, 200, 27);
+INSERT INTO winstons_weight_logs VALUES (27, 27, 2500, 205, 27);
+INSERT INTO winstons_weight_logs VALUES (28, 28, 2500, 210, 28);
+INSERT INTO winstons_weight_logs VALUES (29, 29, 2500, 215, 30);
+INSERT INTO winstons_weight_logs VALUES (30, 30, 2500, 220, 31);
+INSERT INTO winstons_weight_logs VALUES (31, 31, 2500, 225, 32);
+INSERT INTO winstons_weight_logs VALUES (32, 32, 2500, 230, 35);
+INSERT INTO winstons_weight_logs VALUES (33, 33, 2500, 230, 35);
+INSERT INTO winstons_weight_logs VALUES (34, 34, 2500, 220, 31);
+INSERT INTO winstons_weight_logs VALUES (35, 35, 1500, 210, 28);
+INSERT INTO winstons_weight_logs VALUES (36, 36, 1500, 200, 27);
+INSERT INTO winstons_weight_logs VALUES (37, 37, 1500, 195, 25);
+INSERT INTO winstons_weight_logs VALUES (38, 38, 1500, 195, 25);
+INSERT INTO winstons_weight_logs VALUES (39, 39, 1500, 195, 25);
+INSERT INTO winstons_weight_logs VALUES (40, 40, 2500, 203, 26);
+INSERT INTO winstons_weight_logs VALUES (41, 41, 2500, 203, 26);
+INSERT INTO winstons_weight_logs VALUES (42, 42, 2500, 210, 28);
+INSERT INTO winstons_weight_logs VALUES (43, 43, 2500, 215, 30);
+INSERT INTO winstons_weight_logs VALUES (44, 44, 300, 205, 27);
+INSERT INTO winstons_weight_logs VALUES (45, 45, 200, 195, 25);
+INSERT INTO winstons_weight_logs VALUES (46, 46, 150, 180, 22);
+INSERT INTO winstons_weight_logs VALUES (47, 47, 150, 175, 21);
+INSERT INTO winstons_weight_logs VALUES (48, 48, 150, 170, 21);
+INSERT INTO winstons_weight_logs VALUES (49, 49, 150, 170, 21);
+INSERT INTO winstons_weight_logs VALUES (50, 50, 2500, 180, 24);
+INSERT INTO winstons_weight_logs VALUES (51, 51, 2500, 185, 25);
+INSERT INTO winstons_weight_logs VALUES (52, 52, 2500, 193, 26);
+INSERT INTO winstons_weight_logs VALUES (53, 53, 1436, 195, 26);
+
+/*
+Below are example queries using the tables above.
+*/
+
+/*EX: What did Winston's donut intake look like based on what was going on in his life? 
+(AKA: show the sum of the donuts eaten by each category of reasons for eating)*/
+select reason, sum(donuts_eaten) from winstons_donut_logs group by reason order by sum(donuts_eaten) desc;
+
+/*EX: How many donuts did Winston consume in the years when his eating was restricted (due to dieting or braces)?
+(AKA: show the total intake of donuts across all the years winston was either on a diet or had braces)*/
+select sum(donuts_eaten) from winstons_donut_logs where reason in ("Braces", "Diet");
+
+/*EX: What are all the years of his life where Winston ate more than 2000 donuts and why?
+(AKA: show the age and reasons for years where Winston ate more than 2000 donuts)*/
+select years_old, reason, donuts_eaten from winstons_donut_logs where donuts_eaten>=2000;
+  /*EX: the query above just gives us individual instances of years where Winston ate more than 2000 donuts, to explore. 
+  Now, I want to know which REASONS applied to all the years where Winston ate more than 2000 donuts. 
+  Across all the years where Winston ate more than 2000 donuts, what were the main reasons?
+  (AKA: show all the reasons Winston ate more than 2000 donuts in a given year)*/
+  select reason, donuts_eaten from winstons_donut_logs where donuts_eaten>=2000 group by reason;
+  /*Now, I want to know for which reasons Winston ate 2000 or more donuts over his lifetime.
+  Across his lifetime, which reasons saw Winston eating more than 2000 donuts total?
+  (AKA: add up the total donuts eaten across all the years for each reason and show the reasons where that total is more than 2000 donuts)*/
+  select reason, sum(donuts_eaten) as total_donuts from winstons_donut_logs group by reason having total_donuts>=2000;
+ 
+/*EX: Looking at the data, there are several different levels listed within some major categories of statuses in winstons_donut_logs. 
+For "the baby years" of Winston's life, how many levels are there?
+(AKA: show all the statuses that contain the word "baby" to see all the different levels involved in the baby years*/
+select status from winstons_donut_logs where status like "%baby winston%";
+  /*EX: Now that I know there are 3 levels in the baby years, I want to know how many donuts were eaten total across all the baby years. 
+  How many donuts total did Winston consume in his 'baby years'?
+  (AKA: add up the total donuts eaten across all the statuses that are included in 'the baby years' of Winston's life)*/
+  select sum(donuts_eaten) as statustotal_donuts from winstons_donut_logs  where status like "%baby winston%";
+
+/*EX: Say we know from finding BMI max and min that Winston's BMI has varied between 15 and 35 over the course of his life:*/ 
+select max(bmi) from winstons_weight_logs;
+select min(bmi) from winstons_weight_logs;
+  /*We also know that these are the national standards for bmi range:
+		BMI less than 18.5, underweight range. 
+		BMI 18.5 to <25, healthy weight range. 
+		BMI 25.0 to <30, overweight range. 
+		BMI 30.0 or higher, obesity range.*/
+      /*Now I want to know how many years of his life Winston has been in each category above.
+      How many years of his life was Winston underweight, healthy, overweight, and obese?*/
+        select count(*), case 
+      	when bmi < 18.5 then "underweight"
+	      when bmi >=18.5 and bmi < 25 then "healthy"
+	      when bmi >=25  and bmi <=30 then "overweight"
+	      when bmi >=30 then "obese"
+	      end as "bmi_zone" 
+      	from winstons_weight_logs
+	      group by bmi_zone;
+      
+ /*EX: In all the years where Winston was on a diet, what was his weight and BMI in each? 
+ (AKA: show the weight and BMI for years where winston ate donuts for the reason 'Diet', join the tables on the shared variable 'id')*/
+    select winstons_weight_logs.weight, winstons_weight_logs.bmi, winstons_donut_logs.years_old from winstons_weight_logs 
+    join winstons_donut_logs on winstons_donut_logs.id = winstons_weight_logs.id 
+    where reason="Diet";
+
+/*EX: In all the years where Winston was on a diet, what was his average weight across those years?
+Note that all the years Winston was dieting were adult years (over 18 years old). If he had dieted as a teenager, see code below to rectify.
+(AKA: show average weight across all the years where the reason for donut intake is dieting)*/
+	 select avg(winstons_weight_logs.weight) as avgweight, winstons_donut_logs.reason from winstons_weight_logs 
+     join winstons_donut_logs on winstons_donut_logs.id = winstons_weight_logs.id 
+     where reason="Diet";
+		/*EX: As above, it's important not to average Winston's weight across all years he was dieting IF he had dieted 
+		at different development stages. For example, his weight dieting as a teenager is not comparable to his weight dieting as an adult. 
+		If there WERE instances where he had dieted as a teenager, but really the question is what his average weight was in the years he 
+		was dieting as an adult, would use this query using 18 years old as a cutoff for 'adulthood': 
+				select avg(winstons_weight_logs.weight) as avgweight, winstons_donut_logs.reason from winstons_weight_logs 
+            	join winstons_donut_logs on winstons_donut_logs.id = winstons_weight_logs.id 
+             	where reason="Diet" and  winstons_donut_logs.years_old>=18;
+				
+/*EX: Compare his average weight in years Winston was dieting to his average weight in years Winston was eating healthier to see which was more effective, 
+dieting or healthier eating (on the same principle that 'healthier eating' was a reason that was only indicated in adult years)*/
+			select avg(winstons_weight_logs.weight) as avgweight, winstons_donut_logs.reason from winstons_weight_logs 
+            join winstons_donut_logs on winstons_donut_logs.id = winstons_weight_logs.id 
+            where reason="Healthier Eating";
+/*Average weight is higher (199) in the years Winston was just doing healthier eating, meaning dieting was more effective in weight management 
+(because the average weight was 182 across the dieting years, determined by the example section above in lines 199-204)*/
+			 
+        
+/*EX: In all his years, what weight, BMI, and reason for eating donuts are associated with each year of Winston's life? Include if no reason listed.
+(AKA: show weight and BMI from the weight table, and reason from the donuts table, and include any rows without a reason)*/
+	select winstons_weight_logs.weight, winstons_weight_logs.bmi, winstons_donut_logs.reason from winstons_weight_logs 
+	left outer join winstons_donut_logs on winstons_donut_logs.id = winstons_weight_logs.id;
+
+
+
+
+
+
+
+
+
+
