@@ -1,0 +1,44 @@
+/*In this code, I'm using two tables of data on Netflix people (director, cast, etc.), and Netflix content (title, type of content whether
+show or movie, release date, etc.) to answer questions about the data*/
+
+/*First explore the data for general familiarity:*/
+select * from "CharlotteChaze/BreakIntoTech"."netflix_people" limit 5;
+select * from "CharlotteChaze/BreakIntoTech"."netflix_titles_info" limit 5;
+
+/*Next pull a few columns from both tables in one query after joining people table and titles table:*/
+select p.director, t.title, t.rating
+from "CharlotteChaze/BreakIntoTech"."netflix_people" as p
+full outer join "CharlotteChaze/BreakIntoTech"."netflix_titles_info" as t
+on p.show_id = t.show_id;
+
+/*Q1) How many movie titles are there in the database? (movies only, not tv shows)*/
+select count(*) from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+where type='Movie';
+
+/*Q2) When was the most recent batch of tv shows and/or movies added to the database?*/
+select type from "CharlotteChaze/BreakIntoTech"."netflix_titles_info" group by type;
+select max(date(date_added))
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+
+/*Q3) List all the movies and tv shows in alphabetical order.*/
+select title, type from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+order by title asc;
+
+/*Q4) Who was the Director for the movie Bright Star?*/
+select p.director, t.title from "CharlotteChaze/BreakIntoTech"."netflix_titles_info" as t
+left join "CharlotteChaze/BreakIntoTech"."netflix_people" as p 
+on t.show_id=p.show_id
+where t.title='Bright Star';
+
+/*Q5) What is the oldest movie in the database and what year was it made?*/
+select title, release_year 
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+where type = 'Movie'
+and release_year <= 
+(select min(release_year) 
+from "CharlotteChaze/BreakIntoTech"."netflix_titles_info"
+where type = 'Movie'); 
+
+
+
+
