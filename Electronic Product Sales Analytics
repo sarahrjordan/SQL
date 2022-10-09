@@ -1,0 +1,102 @@
+/*BIT DB PRACTICE*/ 
+
+/*First  select all columns and 20 rows from the customers table and a sales table to see what it looks like:*/
+select * from BIT_DB.customers limit 20;
+select * from BIT_DB.FebSales limit 20;
+
+/*Q1 How many orders were placed in January?*/
+/*exploring the way the data looks first*/
+select * from BIT_DB.JanSales limit 10;
+/*checking that all the rows in January Sales table are actually indeed all dated January*/
+select orderdate from BIT_DB.JanSales group by orderdate;
+/*count all orders from January*/
+select count(orderID) from BIT_DB.JanSales;
+
+/*Q2 How many of those orders were for an iPhone?*/
+select count(orderID) from BIT_DB.JanSales
+    where Product="iPhone";
+
+/*Q3 Select the customer account numbers for all the orders that were placed in February.*/
+select c.acctnum from BIT_DB.customers as c   
+inner join BIT_DB.FebSales as f
+on c.order_id=f.orderID;
+/*inner join because only displaying where order id's are matched up between tables - don't include any order id's without account number info nor February sales info*/
+
+/*Q4 Which product was the cheapest one sold in January, and what was the price?*/
+select distinct Product, price from BIT_DB.JanSales 
+ where price in (select min(price) from BIT_DB.JanSales);
+ /*note: using in option instead of = option is faster, as it evaluates to a binary lookup, whereas the multiple = just evaulates each statement individually.*/
+
+/*Q5 What is the total revenue for each product sold in January? (Revenue calculated using the number of products sold times the price of the products).*/
+select sum(Quantity)*price AS item_revenue, Product 
+from BIT_DB.JanSales
+group by Product 
+order by item_revenue asc; 
+/*note: see detailed explanation below*/
+
+/*Q6 Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?*/
+select Product, sum(Quantity), sum(Quantity)*price AS item_revenue 
+from BIT_DB.FebSales 
+where location="548 Lincoln St, Seattle, WA 98101"
+group by Product;
+
+/*Q7 How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?*/
+/*assumption is one account number = one unique customer*/
+
+select count(c.acctnum), avg(F.Quantity*F.price) as avg_spent from BIT_DB.FebSales as f 
+left join BIT_DB.customers as c
+on f.orderID = c.order_id
+where f.Quantity>2; 
+
+/*left join because want all info from Feb sales, including sales where there isn't an order id that corresponds to order id in customers table*/
+
+
+
+
+
+
+/*Question 5 Detailed Notes
+Q5 What is the total revenue for each product sold in January? (Revenue calculated using the number of products sold and the price of the products).*/
+
+/*Why not to use this code:*/
+select (Quantity*price) AS item_revenue, Product 
+from BIT_DB.JanSales
+group by Product 
+order by item_revenue asc; 
+
+/*And why to use this code as correct way:*/
+SELECT sum(quantity)*price as revenue
+,product
+FROM BIT_DB.JanSales
+GROUP BY product 
+order by revenue asc;
+
+/*AKA why use SUM(quantity)*price rather than SUM(quantity*price) 
+Look at data we're interested in from the table we're querying:*/
+
+SELECT orderid, quantity, price, product
+FROM BIT_DB.JanSales
+
+/*For each orderID, 1 or 2 products were ordered at a time. 
+There are lots of duplicates of the product names, because different order IDs ordered the same product in many cases. 
+Calculate how many of each product were sold using SUM(quantity):*/
+
+SELECT SUM(quantity), price, product
+FROM BIT_DB.JanSales
+GROUP BY product, price
+
+/*Now there's only one of each product listed, with the price of that product and the total quantity of each that were sold. 
+Now calculate the revenue for each product, which would be the the quantity of each product sold * the price of each product:*/
+
+SELECT SUM(quantity)*price as Revenue
+,product
+FROM BIT_DB.JanSales
+GROUP BY product
+
+/*AKA - remember classic order of operations. Want to know the total count of each product and multiply that by its price to get a 
+proper "total revenue for each product sold in January" as the question asks*/
+
+
+
+
+
