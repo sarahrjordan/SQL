@@ -99,4 +99,71 @@ proper "total revenue for each product sold in January" as the question asks*/
 
 
 
+/*------------- added -----------*/
+/*querying information on order dates in the orders database*/
+
+/*first explore format of date field in the database*/
+SELECT orderdate
+FROM BIT_DB.FebSales;
+
+/*##1. What are all the dates/times of orders that were placed between 2/13/19 and 2/17/19?*/ 
+SELECT orderdate
+FROM BIT_DB.FebSales
+WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00'
+order by orderdate asc;
+
+/*note the code above only returns the first 1000 rows. What is the total count of all the orders placed 
+between 2/13/19 and 2/17/19?*/
+SELECT count(orderdate)
+FROM BIT_DB.FebSales
+WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
+
+/*##2. What is the location of orders placed on 2/18/19 at 1:35?*/
+SELECT location
+FROM BIT_DB.FebSales 
+WHERE orderdate = '02/18/19 01:35';
+
+/*note- trying it with another time to display when there are multiple orders at the same exact time:*/
+SELECT location
+FROM BIT_DB.FebSales 
+WHERE orderdate = '02/13/19 07:23';
+
+/*note- now making it even tighter by asking to only show the list of unique locations 
+(not showing every row of locations including duplicates, instead group by the list of locations)
+(AKA one household may have ordered two orders at the same exact time, or multiple households could have orders placed at exact same time-
+this gives the list of households with orders placed at that exact time, no matter how many orders were placed from one household at that moment)*/
+SELECT location
+FROM BIT_DB.FebSales 
+WHERE orderdate = '02/13/19 07:23'
+group by location;
+
+/*##3. Because dates are listed as "M/D/Y TIME," to see what quantity was sold on 2/18/19 at any time of day, filter with like %:
+only select orderdate when it starts with 02/18/19, but % indicates "then anything can come after that"*/ 
+SELECT sum(quantity)
+FROM BIT_DB.FebSales 
+WHERE orderdate like '02/18/19%';
+
+/*##4. Show all the types of batteries included in this database (AA, AAA, C, D, etc.)*/
+SELECT distinct Product
+FROM BIT_DB.FebSales
+WHERE Product like '%Batteries%'
+
+/*##5. Show all the prices of products that are sold at increments of .99 cents*/ 
+SELECT distinct Product, Price
+FROM BIT_DB.FebSales 
+WHERE Price like '%.99';
+
+/*##7.List all the products sold in Los Angeles in February, and include how many of each were sold.*/
+/*first looking at the data to see where 'Los Angeles' shows and what it looks like*/
+select location from BIT_DB.FebSales group by location;
+
+/*now use this code to answer #7- I left location in the returned results so I could see that they are in fact all from Los Angeles*/
+select location, Product, sum(Quantity) from BIT_DB.FebSales 
+where location like "%Los Angeles%"
+group by Product;
+
+
+
+
+
 
