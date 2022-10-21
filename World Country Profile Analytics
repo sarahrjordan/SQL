@@ -1,6 +1,6 @@
 /*I used SQLZoo's World Country Profile data to answer questions about country and continent-level information below.*/
 
-/*Working with the table schema: 
+/*Working with the table: 
 world(name, continent, area, population, gdp)*/
 
 /*1.
