@@ -127,3 +127,35 @@ from Spotifydata
 where popularity = 92 or popularity = 93
 order by track_name;
 
+
+/*next part*/
+
+/*Your task is to calculate the average popularity for the artists in the table. 
+Then, for every artist with an average popularity of 90 or above, you need to show their name, their average popularity, and label them as a “Top Star”. 
+How would you do this using a CTE?
+HINT: The CTE portion of the query should answer the first part of the question (average popularity for the artists in the table). 
+The query that follows the CTE should select the information FROM the CTE that's needed, and also add a "Top Star" tag.*/
+
+
+/*first part:*/
+select artist_name, avg(popularity) 
+from Spotifydata
+group by artist_name;
+
+/*checked code above*/
+select artist_name, popularity
+from Spotifydata
+where artist_name="Doja Cat";
+
+
+
+/*full code*/
+with popavgcte as (
+select s.artist_name, avg(s.popularity) as avgpop
+from Spotifydata s
+group by s.artist_name)
+
+select artist_name, avgpop, 'Top Star' as tag from popavgcte
+where avgpop>=90;
+
+
