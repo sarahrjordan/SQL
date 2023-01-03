@@ -1,15 +1,10 @@
-/*BIT DB PRACTICE*/ 
+/*For this project, I downloaded a database with information about customers and sales of a company. I performed analytics using SQL.*/ 
 
-/*First  select all columns and 20 rows from the customers table and a sales table to see what it looks like:*/
+/*First, view a couple tables in the database to understand data structure.*/
 select * from BIT_DB.customers limit 20;
 select * from BIT_DB.FebSales limit 20;
 
 /*Q1 How many orders were placed in January?*/
-/*exploring the way the data looks first*/
-select * from BIT_DB.JanSales limit 10;
-/*checking that all the rows in January Sales table are actually indeed all dated January*/
-select orderdate from BIT_DB.JanSales group by orderdate;
-/*count all orders from January*/
 select count(orderID) from BIT_DB.JanSales;
 
 /*Q2 How many of those orders were for an iPhone?*/
@@ -20,19 +15,17 @@ select count(orderID) from BIT_DB.JanSales
 select c.acctnum from BIT_DB.customers as c   
 inner join BIT_DB.FebSales as f
 on c.order_id=f.orderID;
-/*inner join because only displaying where order id's are matched up between tables - don't include any order id's without account number info nor February sales info*/
 
 /*Q4 Which product was the cheapest one sold in January, and what was the price?*/
 select distinct Product, price from BIT_DB.JanSales 
  where price in (select min(price) from BIT_DB.JanSales);
- /*note: using in option instead of = option is faster, as it evaluates to a binary lookup, whereas the multiple = just evaulates each statement individually.*/
 
-/*Q5 What is the total revenue for each product sold in January? (Revenue calculated using the number of products sold times the price of the products).*/
-select sum(Quantity)*price AS item_revenue, Product 
+/*Q5 What is the total revenue for each product sold in January?*/ 
+/*(Revenue calculated using the number of products sold times the price of the products).*/
+select sum(Quantity)*price as item_revenue, Product 
 from BIT_DB.JanSales
 group by Product 
 order by item_revenue asc; 
-/*note: see detailed explanation below*/
 
 /*Q6 Which products were sold in February at 548 Lincoln St, Seattle, WA 98101, how many of each were sold, and what was the total revenue?*/
 select Product, sum(Quantity), sum(Quantity)*price AS item_revenue 
@@ -41,226 +34,65 @@ where location="548 Lincoln St, Seattle, WA 98101"
 group by Product;
 
 /*Q7 How many customers ordered more than 2 products at a time in February, and what was the average amount spent for those customers?*/
-/*assumption is one account number = one unique customer*/
-
+/*(Assumption is one account number = one unique customer).*/
 select count(c.acctnum), avg(F.Quantity*F.price) as avg_spent from BIT_DB.FebSales as f 
 left join BIT_DB.customers as c
 on f.orderID = c.order_id
 where f.Quantity>2; 
 
-/*left join because want all info from Feb sales, including sales where there isn't an order id that corresponds to order id in customers table*/
+/*Q8 What is the total count of all the orders placed between 2/13/19 and 2/17/19?*/
+select count(orderdate)
+from BIT_DB.FebSales
+where orderdate between '02/13/19 00:00' and '02/18/19 00:00';
 
+/*Q9 What is the location of orders placed on 2/18/19 at 1:35?*/
+select location
+from BIT_DB.FebSales 
+where orderdate = '02/18/19 01:35';
 
+/*Q10 Show all the types of batteries included in this database (AA, AAA, C, D, etc.)*/
+select distinct Product
+from BIT_DB.FebSales
+where Product like '%Batteries%';
 
+/*Q11 Show all the prices of products that are sold at increments of .99 cents.*/ 
+select distinct Product, Price
+from BIT_DB.FebSales 
+where Price like '%.99';
 
-
-
-/*Question 5 Detailed Notes
-Q5 What is the total revenue for each product sold in January? (Revenue calculated using the number of products sold and the price of the products).*/
-
-/*Why not to use this code:*/
-select (Quantity*price) AS item_revenue, Product 
-from BIT_DB.JanSales
-group by Product 
-order by item_revenue asc; 
-
-/*And why to use this code as correct way:*/
-SELECT sum(quantity)*price as revenue
-,product
-FROM BIT_DB.JanSales
-GROUP BY product 
-order by revenue asc;
-
-/*AKA why use SUM(quantity)*price rather than SUM(quantity*price) 
-Look at data we're interested in from the table we're querying:*/
-
-SELECT orderid, quantity, price, product
-FROM BIT_DB.JanSales
-
-/*For each orderID, 1 or 2 products were ordered at a time. 
-There are lots of duplicates of the product names, because different order IDs ordered the same product in many cases. 
-Calculate how many of each product were sold using SUM(quantity):*/
-
-SELECT SUM(quantity), price, product
-FROM BIT_DB.JanSales
-GROUP BY product, price
-
-/*Now there's only one of each product listed, with the price of that product and the total quantity of each that were sold. 
-Now calculate the revenue for each product, which would be the the quantity of each product sold * the price of each product:*/
-
-SELECT SUM(quantity)*price as Revenue
-,product
-FROM BIT_DB.JanSales
-GROUP BY product
-
-/*AKA - remember classic order of operations. Want to know the total count of each product and multiply that by its price to get a 
-proper "total revenue for each product sold in January" as the question asks*/
-
-
-
-
-/*------------- 1.8 part 2-----------*/
-/*querying information on order dates in the orders database*/
-
-/*first explore format of date field in the database*/
-SELECT orderdate
-FROM BIT_DB.FebSales;
-
-/*##1. What are all the dates/times of orders that were placed between 2/13/19 and 2/17/19?*/ 
-SELECT orderdate
-FROM BIT_DB.FebSales
-WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00'
-order by orderdate asc;
-
-/*note the code above only returns the first 1000 rows. What is the total count of all the orders placed 
-between 2/13/19 and 2/17/19?*/
-SELECT count(orderdate)
-FROM BIT_DB.FebSales
-WHERE orderdate between '02/13/19 00:00' AND '02/18/19 00:00';
-
-/*##2. What is the location of orders placed on 2/18/19 at 1:35?*/
-SELECT location
-FROM BIT_DB.FebSales 
-WHERE orderdate = '02/18/19 01:35';
-
-/*note- trying it with another time to display when there are multiple orders at the same exact time:*/
-SELECT location
-FROM BIT_DB.FebSales 
-WHERE orderdate = '02/13/19 07:23';
-
-/*note- now making it even tighter by asking to only show the list of unique locations 
-(not showing every row of locations including duplicates, instead group by the list of locations)
-(AKA one household may have ordered two orders at the same exact time, or multiple households could have orders placed at exact same time-
-this gives the list of households with orders placed at that exact time, no matter how many orders were placed from one household at that moment)*/
-SELECT location
-FROM BIT_DB.FebSales 
-WHERE orderdate = '02/13/19 07:23'
-group by location;
-
-/*##3. Because dates are listed as "M/D/Y TIME," to see what quantity was sold on 2/18/19 at any time of day, filter with like %:
-only select orderdate when it starts with 02/18/19, but % indicates "then anything can come after that"*/ 
-SELECT sum(quantity)
-FROM BIT_DB.FebSales 
-WHERE orderdate like '02/18/19%';
-
-/*##4. Show all the types of batteries included in this database (AA, AAA, C, D, etc.)*/
-SELECT distinct Product
-FROM BIT_DB.FebSales
-WHERE Product like '%Batteries%'
-
-/*##5. Show all the prices of products that are sold at increments of .99 cents*/ 
-SELECT distinct Product, Price
-FROM BIT_DB.FebSales 
-WHERE Price like '%.99';
-
-/*##7.List all the products sold in Los Angeles in February, and include how many of each were sold.*/
-/*first looking at the data to see where 'Los Angeles' shows and what it looks like*/
-select location from BIT_DB.FebSales group by location;
-
-/*now use this code to answer #7- I left location in the returned results so I could see that they are in fact all from Los Angeles*/
+/*Q12 List all the products sold in Los Angeles in February, and include how many of each were sold.*/
 select location, Product, sum(Quantity) from BIT_DB.FebSales 
 where location like "%Los Angeles%"
 group by Product;
 
-
-
-
-
-
-
-
-/*--------1.9 Part 3 -------------*/
-/*Assumption that all sales in Jan table are indeed from January, all sales from Feb table are indeed from February, etc.*/
-
-/*##8.1. Which locations in New York received at least 3 orders in January, and how many orders did they each receive?*/
-/*note using distinct and group by (same results produced if not using distinct). order of operations below is:
-        from - retrieve base data from table JanSales
-        where - filter the base data by locations that have like-NY in it 
-        group by - group the locations that have like-NY in it so that duplicate addresses in NY are grouped together 
-        having - filter those unique grouped addresses/locations where there are more than 3 orders
-        select distinct - on those unique addresses with more than 3 orders... show results by unique location based on the filters above
-        ? did we need distinct ? */
+/*Q13 Which locations in New York received at least 3 orders in January, and how many orders did they each receive?*/
 select distinct location, count(orderID) from BIT_DB.JanSales
 where location like "%NY%"
 group by location
 having count(orderID)>=3;
 
-/*##9.2. How many of each type of headphone were sold in February?*/
+/*Q14 How many of each type of headphone were sold in February?*/
 select Product, sum(quantity) as quantity from BIT_DB.FebSales
 where Product like "%headphone%"
 group by product;
 
-/*##10.3. What was the average amount spent per account in February?
-this question is not: what was the average spent by each account in February (where you'd group by to display a bunch of rows by account # and avg spent)
-this question is: take the total spent for each order in Feb, add that all up and divide by total number of accounts, to see what was the overall average spent by account in Feb
-AKA? taking the average of 'the total of what each household spent'
-AKA? what is the average spending in Feb among all the households // What was the average amount spent across all accounts in February?*/
+/*Q15 What was the average amount spent per account in February?*/
+select sum(quantity*price)/count(cust.acctnum)
+from BIT_DB.FebSales Feb
+left join BIT_DB.customers cust
+on FEB.orderid=cust.order_id;
 
-/*looking at the data first*/
-select * from FebSales limit 10;
-
-/*first option*/
-SELECT sum(quantity*price)/count(cust.acctnum)
-FROM BIT_DB.FebSales Feb
-LEFT JOIN BIT_DB.customers cust
-ON FEB.orderid=cust.order_id;
-
-/*second option: you can just take avg(q*p) here because after the join, only unique/distinct customer accounts are left
-(order of operations)*/
-SELECT avg(quantity*price)
-FROM BIT_DB.FebSales Feb
-LEFT JOIN BIT_DB.customers cust
-ON FEB.orderid=cust.order_id;
-
-/*##11.4. What was the average quantity of products purchased per account in February?*/
-/*my answer which should be the same as below but has slightly different values when rounded, as above options do in #3*/
-select avg(quantity)
-from FebSales Feb
-left join customers cust 
-ON FEB.orderid=cust.order_id;
-
-/*other answer, which should return same results?*/
+/*Q16 What was the average quantity of products purchased per account in February?*/
 select sum(quantity)/count(cust.acctnum)
-FROM BIT_DB.FebSales Feb
-LEFT JOIN BIT_DB.customers cust
-ON FEB.orderid=cust.order_id;
+from BIT_DB.FebSales Feb
+left join BIT_DB.customers cust
+on FEB.orderid=cust.order_id;
 
-/*##12.5. Which product brought in the most revenue in January and how much revenue did it bring in total?
-Note - to see the top product, use limit to show 1 row (the top row AKA desc) in output*/
+/*Q17 Which product brought in the most revenue in January and how much revenue did it bring in total?*/
 select Product, sum(Quantity*Price) as total_revenue
 from JanSales 
 group by product
 order by total_revenue desc
 limit 1;
 
-/*alternate option:*/
-SELECT product, 
-sum(quantity*price)
-FROM BIT_DB.JanSales 
-GROUP BY product
-ORDER BY sum(quantity*price) desc 
-LIMIT 1;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* -end- */
