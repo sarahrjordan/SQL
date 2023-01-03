@@ -1,9 +1,8 @@
-/*Spotify*/
 /*For this project, I downloaded Spotify data from Kaggle.
 The data includes the top 50 songs listened to in 2021 on Spotify.
 Then I created a table to insert Spotify data into, and performed analytics on the data using SQL.*/
 
-/*#Creating the table:*/ 
+/*Creating the table:*/ 
 CREATE TABLE BIT_DB.Spotifydata (
 id integer PRIMARY KEY,
 artist_name varchar NOT NULL,
@@ -24,86 +23,43 @@ tempo decimal(6,3) NOT NULL,
 duration_ms integer NOT NULL,
 time_signature integer NOT NULL); 
 
-/*#Then I inserted the Spotify Data .csv into the table.*/
-/*(tools, import, select CSV file, select first line as column names)*/
+/*Then I inserted the Spotify Data .csv into the table.
+tools, import, select CSV file, select first line as column names)*/
 
-/*#Next, I explored the data using the following SQL.:*/
+/*#Next, I explored the data using the following SQL:*/
 
-
-/*Explore data*/
-SELECT * FROM Spotifydata;
-
-
-/*#1. First I determined the avg popularity, danceability, and energy by artist, ordered by artists with the most amount of songs in the top 50 list.*/
+/*1 First I determined the average popularity, danceability, and energy by artist, ordered by artists with the most amount of songs in the top 50 list.*/
 select artist_name, avg(popularity), avg(danceability), avg(energy), count(track_name)
 from Spotifydata
 group by artist_name
 order by count(track_name) desc;
-
 /*(ordered by most danceable)*/
 select artist_name, avg(popularity), avg(danceability), avg(energy), count(track_name)
 from Spotifydata
 group by artist_name
 order by avg(danceability) desc;
 
-/*checking above output with code below*/
-select * from Spotifydata where artist_name like "%The Weeknd%";
-
-
-/*#2. Then I determined who the Top 10 artists are by popularity and what their average popularity is.*/
+/*2 Then I determined who the Top 10 artists are by popularity and what their average popularity is.*/
 select artist_name, avg(popularity)
 from Spotifydata
 group by artist_name 
 order by avg(popularity) desc
 limit 10;
 
-/*checking above output with code below*/
-select track_id, popularity, artist_name 
-from Spotifydata
-where artist_name = "Olivia Rodrigo";
-
-/*This is a different question from practice set: it's asking,
-Determine who sings the top 10 songs (top 10 songs based on popularity)*/
-SELECT track_name, artist_name, popularity
-FROM Spotifydata
-ORDER BY popularity desc
-LIMIT 10;
-
-
-/*#3 What artist released the longest song and how long was it?*/
+/*3 What artist released the longest song and how long was it?*/
 select track_name, artist_name, duration_ms
 from Spotifydata
 order by duration_ms desc
 limit 1;
 
-
-/*#4 What's the average danceability for the 10 most popular songs?*/
-select avg(danceability)
-from Spotifydata 
-order by popularity desc
-limit 10;
-
-/*checking above output with code below*/
-select track_name, popularity, danceability
-from Spotifydata
-order by popularity desc
-limit 10;
-
-
-/*#5 List each track name where the popularity is greater than that of "Bad Bunny - Yonaguni (popularity=94)"*/
+/*4 List each track name where the popularity is greater than that of "Bad Bunny - Yonaguni (popularity=94)"*/
 select track_name, popularity
 from Spotifydata
 where popularity > (select popularity 
 from Spotifydata
 where track_name = "Yonaguni");
 
-/*checking above output with code below*/
-select track_name, popularity
-from Spotifydata
-where popularity > 94;
-
-
-/*#6 Show the songs in time signature 3 where the energy is greater than that of drivers license by olivia rodrigo (energy=.431)*/
+/*5 Show the songs in time signature 3 where the energy is greater than that of drivers license by olivia rodrigo (energy=.431)*/
 select track_name, energy, time_signature
 from Spotifydata
 where energy > (select energy
@@ -111,51 +67,20 @@ from Spotifydata
 where track_name = "drivers license") 
 and time_signature=3;
 
-/*checking above output with code below*/
-select track_name, energy, time_signature
-from Spotifydata
-where energy > (select energy
-from Spotifydata
-where track_name = "drivers license")
-order by time_signature asc;
-
-
-
-/*#7 List the artist, track name, and popularity of tracks with popularity of 92 or 93. Order by name of the track.*/
+/*6 List the artist, track name, and popularity of tracks with popularity of 92 or 93. Order by name of the track.*/
 select artist_name, track_name, popularity 
 from Spotifydata
 where popularity = 92 or popularity = 93
 order by track_name;
 
-
-/*next part*/
-
-/*Your task is to calculate the average popularity for the artists in the table. 
-Then, for every artist with an average popularity of 90 or above, you need to show their name, their average popularity, and label them as a “Top Star”. 
-How would you do this using a CTE?
-HINT: The CTE portion of the query should answer the first part of the question (average popularity for the artists in the table). 
-The query that follows the CTE should select the information FROM the CTE that's needed, and also add a "Top Star" tag.*/
-
-
-/*first part:*/
-select artist_name, avg(popularity) 
-from Spotifydata
-group by artist_name;
-
-/*checked code above*/
-select artist_name, popularity
-from Spotifydata
-where artist_name="Doja Cat";
-
-
-
-/*full code*/
+/*7 Using CTEs (common table expression), 
+Calculate the average popularity for the artists in the table. 
+Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”.*/
 with popavgcte as (
-select s.artist_name, avg(s.popularity) as avgpop
-from Spotifydata s
-group by s.artist_name)
-
+ select s.artist_name, avg(s.popularity) as avgpop
+ from Spotifydata s
+ group by s.artist_name)
 select artist_name, avgpop, 'Top Star' as tag from popavgcte
 where avgpop>=90;
 
-
+/* -end- */
