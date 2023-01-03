@@ -1,140 +1,76 @@
-/*For this project, I downloaded a database with information from the music industry. 
+/*For this project, I downloaded a database with information from the music industry and performed analytics on the data using SQL. 
 The data include information about music tracks (e.g., artist, song, playlist, genre) sold to customers. 
-There is also data from sales information related to these sales (e.g., invoices, billing information, customer and support representative IDs). 
-I performed analytics on the data using SQL.*/
+There is also data on sales information related to these products (e.g., invoices, billing information, customer and support representative IDs).*/
 
 
-/*
-0. Using CTEs, Calculate the average popularity for the artists in the Spotify data table. 
-Then, for every artist with an average popularity of 90 or above, show their name, their average popularity, and label them as a “Top Star”.
-cant figure this out:
-calculate average length of songs for albums in the data. 
-then, for every album with songs having an average length of at least 2,000,000 milliseconds, 
-show the id of the album, average lenth of songs in the album, and label them as 'long albums' 
-*/
-
-select albumid, avg(milliseconds) from chinook.tracks
-group by albumid
-order by avg(milliseconds) desc;
-
-
-
-/*
-1.Show Customers (their full names, customer ID, and country) who are not in the US. 
-*/
-
+/* 1.Show Customers (their full names, customer ID, and country) who are not in the US. */
 select firstname || " " || lastname as fullname, customerid, country from chinook.customers
 where country != "USA";
 
-
-/*
-2.Show only the Customers from Brazil.
-Can write this with or without country indicator.
-*/
+/* 2.Show only the Customers from Brazil. Can write this with or without country indicator. */
 select firstname || " " || lastname as fullname, customerid, country from chinook.customers
 where country = "Brazil";
 
-
-/*
-3.Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
-*/
+/* 3.Locate Invoices of customers who are from Brazil. Include customer's full name, Invoice ID, Date of the invoice, and billing country. */
 select firstname || " " || lastname as fullname, invoiceid, invoicedate, billingcountry from chinook.invoices
 left join chinook.customers on invoices.customerid = customers.customerid
 where customers.country="Brazil";
 
-/*
-4.Show the Employees who are Sales Agents.
-*/
-
+/* 4.Locate the Employees who are Sales Agents.*/
 select * from chinook.employees 
 where title like "%Sales % Agent%";
 
-/*
-5.Find a unique/distinct list of billing countries from the Invoice table.
-*/
+/* 5.Find a unique/distinct list of billing countries from the Invoice table. */
 select distinct billingcountry from chinook.invoices
 order by billingcountry asc;
 
-/*
-6.Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name.
-*/
-
+/* 6.Show the invoices associated with each sales agent (with their full name). */
 select employees.firstname || " " || employees.lastname as fullname, invoiceid
 from chinook.employees
  join chinook.customers on customers.supportrepid = employees.employeeid
  join chinook.invoices on customers.customerid = invoices.customerid;
 
-/*
-7.Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
-*/
+/* 7.Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers. */
 select invoices.total, customers.firstname || " " || customers.lastname as cfullname, customers.country, employees.firstname || " " || employees.lastname as efullname
 from chinook.employees
  full outer join chinook.customers on customers.supportrepid = employees.employeeid
  full outer join chinook.invoices on customers.customerid = invoices.customerid;
 
-/*
-8.How many Invoices were there in 2009?
-*/
-select count(invoiceid) from chinook.invoices 
-where invoicedate like "2009%";
+/* 8.How many Invoices were there in 2009? */
+select count(*) from chinook.Invoices
+where InvoiceDate between '2009-01-01' and '2009-12-31';
 
-/*another way to write this:*/
-SELECT COUNT(*) FROM chinook.Invoices
-WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
-
-/*
-9.What are the total sales for 2009?
-*/
+/* 9.What are the total sales for 2009? */
 select sum(total) from chinook.invoices
-where invoicedate like "2009%";
+where InvoiceDate between '2009-01-01' and '2009-12-31';
 
-/*another way to write this:*/
-SELECT SUM(Total)
-FROM chinook.Invoices
-WHERE InvoiceDate BETWEEN '2009-01-01' AND '2009-12-31';
-
-/*
-10.Write a query that includes the purchased track name with each invoice line ID.
-*/
-
+/* 10.Provide purchased track name with each invoice line ID. */
 select invoice_items.trackid, tracks.name, group_concat(invoicelineid, ';') as allinvoicelineids from chinook.invoice_items
 join chinook.tracks on invoice_items.trackid = tracks.trackid
 group by invoice_items.trackid;
 
-
-
-/*
-11.Write a query that includes the purchased track name AND artist name with each invoice line ID.
-*/
+/* 11.Provide purchased track name AND artist name with each invoice line ID. */
 select invoice_items.trackid, tracks.name, artists.name as artistname, group_concat(invoicelineid, ';') as allinvoicelineids from chinook.invoice_items
 join chinook.tracks on invoice_items.trackid = tracks.trackid
 join chinook.albums on albums.albumid = tracks.albumid
 join chinook.artists on albums.artistid = artists.ArtistId
 group by invoice_items.trackid;
 
-/*
-12.Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
-*/
+/* 12.Provide all the Tracks, and include their Album name, Media type, and Genre. */
 select tracks.name as trackname, albums.title as albumname, media_types.name as medianame, genres.name as genrename from tracks
 join albums on albums.albumid = tracks.AlbumId
 join media_types on media_types.mediatypeid = tracks.MediaTypeId
 join genres on genres.genreid = tracks.genreid
 order by genrename desc;
 
-
-/*
-13.Show the total sales made by each sales agent.
-*/
+/* 13.Show the total sales made by each sales agent. */
 select round(sum(total), 2) as totalsales, employees.firstname || " " || employees.lastname as fullname from invoices
 join customers on customers.customerid = invoices.customerid 
 join employees on employees.employeeid = customers.SupportRepId
 where title like "%Sales % Agent%"
 group by fullname;
 
-
-/*
-14.Which sales agent made the most dollars in sales in 2009?
-*/
+/* 14.Which sales agent made the most dollars in sales in 2009? */
 select round(sum(total), 2) as totalsales, employees.firstname || " " || employees.lastname as fullname from invoices
 join customers on customers.customerid = invoices.customerid 
 join employees on employees.employeeid = customers.SupportRepId
@@ -143,44 +79,31 @@ group by fullname
 order by totalsales desc
 limit 1;
 
-
-
-
-/*
-Bonus 15. Select all the track names sold and the total quantity sold of each, and which invoices they show up in.
-*/
+/* 15. Select all the track names sold and the total quantity sold of each, and which invoices they show up in. */
 select tracks.name, tracks.trackid, sum(invoice_items.quantity) as qtysold, group_concat(invoiceid, ';') as allinvoiceids from chinook.invoice_items
 join chinook.tracks on invoice_items.trackid = tracks.trackid
 group by invoice_items.trackid
 order by qtysold desc;
 
-/*
-Bonus 16. To see which are the highest paying customers, show customers who have at least 3 orders with total value of $5.99 or more in each order.
-*/
-
+/* 16. To see which are the highest paying customers, show customers who have at least 3 orders with total value of $5.99 or more in each order. */
 select invoices.customerid, count(*) as count 
 from invoices 
 where invoices.total >= 5.99
 group by invoices.customerid
-having count(*) >=3 
+having count(*) >=3; 
 
-/*
-Bonus 17. List the album name and genre for all the songs by Nirvana.
-*/
+/* 17. List the album name and genre for all the songs by Nirvana. */
 select artists.name, tracks.name as trackname, albums.title, genres.name as genrename from genres 
 join tracks on genres.genreid=tracks.GenreId
 join albums on albums.albumid=tracks.AlbumId
 join artists on artists.artistid=albums.albumid 
-where artists.name='Nirvana'
+where artists.name='Nirvana';
 
-
-/*
-Bonus 18. 
-Show all the songs with composers including Adam Clayton and the playlists they show up in. 
-*/
-
+/* 18. Show all the songs with composers including Adam Clayton and the playlists they show up in. */
 select distinct tracks.name as trackname, playlists.name as playlistname, tracks.composer from tracks
 join playlist_track on playlist_track.TrackId=tracks.TrackId
 join playlists on playlists.playlistid=playlist_track.playlistid
 where composer like "%Adam Clayton%"
-order by composer asc
+order by composer asc;
+
+/* -end- */
