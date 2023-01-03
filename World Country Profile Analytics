@@ -1,7 +1,5 @@
-/*I used SQLZoo's World Country Profile data to answer questions about country and continent-level information below.*/
-
-/*Working with the table: 
-world(name, continent, area, population, gdp)*/
+/*I used SQLZoo's World Country Profile data to answer questions about country and continent-level information below using SQL.*/
+/*The table "world" includes country-level data such as country name, continent, area, population, and gdp*/
 
 /*1.
 What is the total population of the world?*/
@@ -35,5 +33,5 @@ select continent, count(name) from world where population>=10000000 group by con
 List the continents that have a total population of at least 100 million.*/
 select continent from world group by continent having sum(population) >=100000000
 
-
+/* -end- */
 
